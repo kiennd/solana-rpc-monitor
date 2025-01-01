@@ -1,7 +1,3 @@
-Here’s a `README.md` file for your `run.py` script: 
-
----
-
 ## Node Sync Monitor
 
 The **Node Sync Monitor** is a Python-based tool designed to monitor the synchronization status of your Solana node. It compares your node's current slot with that of a trusted reference node and sends a Telegram notification when the slot difference exceeds a predefined threshold, indicating that your node is out of sync.
@@ -109,13 +105,3 @@ The **Node Sync Monitor** is a Python-based tool designed to monitor the synchro
 ### License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-### Contributions
-
-Contributions are welcome! Please create an issue or submit a pull request on the GitHub repository.
-
----
-
-Let me know if you need any adjustments or additional sections in the README!
