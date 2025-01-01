@@ -86,22 +86,6 @@ The **Node Sync Monitor** is a Python-based tool designed to monitor the synchro
 
 ---
 
-### Troubleshooting
-
-- **Node Not Responding**:
-  Ensure your node is running and accessible via the `LOCAL_RPC_URL`.
-
-- **Telegram Notifications Not Sent**:
-  Verify that your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are correctly configured in the `.env` file.
-
-- **Dependency Issues**:
-  Ensure all required dependencies are installed:
-  ```bash
-  pip install requests python-dotenv
-  ```
-
----
-
 ### License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
