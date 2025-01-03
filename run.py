@@ -57,39 +57,51 @@ def get_slot(rpc_url):
         logging.error(f"Error fetching slot from {rpc_url}: {e}")
         return None
 
-def check_sync_status():
+def check_sync_status(previously_out_of_sync):
     """
-    Check if the node is in sync with the reference node and notify if out of sync.
+    Check if the node is in sync with the reference node and notify if out of sync or caught up.
     """
     local_slot = get_slot(LOCAL_RPC_URL)
     reference_slot = get_slot(REFERENCE_RPC_URL)
 
     if local_slot is None or reference_slot is None:
         logging.warning("Unable to fetch slot data. Skipping sync check.")
-        return
+        return previously_out_of_sync
 
     slot_difference = reference_slot - local_slot
     logging.info(f"Local slot: {local_slot}, Reference slot: {reference_slot}, Difference: {slot_difference}")
 
     if slot_difference > SYNC_THRESHOLD:
         message = (
-            f"⚠️ Node is out of sync!\n"
+            f"\u26A0\uFE0F Node is out of sync!\n"
             f"Local slot: {local_slot}\n"
             f"Reference slot: {reference_slot}\n"
             f"Difference: {slot_difference} slots"
         )
         logging.warning(message)
         send_telegram_message(message)
-    else:
-        logging.info("Node is in sync.")
+        return True
+    elif previously_out_of_sync:
+        message = (
+            f"\u2705 Node has caught up and is now in sync!\n"
+            f"Local slot: {local_slot}\n"
+            f"Reference slot: {reference_slot}\n"
+            f"Difference: {slot_difference} slots"
+        )
+        logging.info(message)
+        send_telegram_message(message)
+
+    logging.info("Node is in sync.")
+    return False
 
 def main():
     """
     Main loop to periodically check sync status.
     """
+    previously_out_of_sync = False
     while True:
         try:
-            check_sync_status()
+            previously_out_of_sync = check_sync_status(previously_out_of_sync)
             time.sleep(CHECK_INTERVAL)
         except KeyboardInterrupt:
             logging.info("Monitoring stopped by user.")
