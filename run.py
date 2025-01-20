@@ -22,6 +22,7 @@ LOCAL_RPC_URL = os.getenv("LOCAL_RPC_URL", "http://localhost:8899")  # Your node
 REFERENCE_RPC_URL = os.getenv("REFERENCE_RPC_URL", "https://api.mainnet-beta.solana.com")  # Reference node RPC URL
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")     # Telegram bot token
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")         # Telegram chat ID
+MESSAGE_THREAD_ID = os.getenv("MESSAGE_THREAD_ID") 
 CHECK_INTERVAL = int(os.getenv("CHECK_INTERVAL", 10))    # Interval to check sync status (seconds)
 SYNC_THRESHOLD = int(os.getenv("SYNC_THRESHOLD", 100))   # Threshold for out-of-sync detection (slots)
 
@@ -34,7 +35,7 @@ def send_telegram_message(message):
     """
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
+        payload = {"chat_id": TELEGRAM_CHAT_ID,"message_thread_id": MESSAGE_THREAD_ID, "text": message}
         response = requests.post(url, json=payload, timeout=5)
         response.raise_for_status()
         logging.info("Telegram notification sent successfully.")
